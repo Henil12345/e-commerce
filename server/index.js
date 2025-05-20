@@ -21,7 +21,10 @@ import logoRouter from './route/logo.route.js';
 import affliateRouter from './route/affiliate.Routes.js'
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: '*',  
+    credentials: true,
+  }));
 app.options('*', cors())
 
 
