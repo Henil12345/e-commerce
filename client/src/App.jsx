@@ -8,6 +8,7 @@ import Home from "./Pages/Home";
 import ProductListing from "./Pages/ProductListing";
 import { ProductDetails } from "./Pages/ProductDetails";
 import { createContext } from "react";
+import Test from "./Pages/Test.jsx";
 
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -261,6 +262,7 @@ function App() {
               <Route path="/affiliate-payment" element={<AffiliatePayment />} />
               <Route path="/affiliate-success" element={<AffiliateSuccess />} />
               <Route path="/affiliate-failure" element={<AffiliateFailed />} />
+              <Route path="/text" element={<Test />} />
             </Routes>
           </main>
           

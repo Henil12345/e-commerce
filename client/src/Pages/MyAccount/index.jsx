@@ -1,117 +1,100 @@
-// ... [import statements unchanged]
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { TextField, Button, CircularProgress } from "@mui/material";
+import PhoneInput from "react-phone-number-input";
+import { Collapse } from "react-collapse";
+import AccountSidebar from "../../components/AccountSidebar";
+// adjust the relative path so it points at your App.js
+import { MyContext } from "../../App";
+import { editData, postData } from "../../utils/api";
+// import "react-phone-number-input/style.css"; // if you need the default styles
 
 const MyAccount = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoading2, setIsLoading2] = useState(false);
-  const [userId, setUserId] = useState("");
-  const [isChangePasswordFormShow, setisChangePasswordFormShow] = useState(false);
-  const [phone, setPhone] = useState('');
-
-  const [formFields, setFormsFields] = useState({
-    name: '',
-    email: '',
-    mobile: ''
-  });
-
-  const [changePassword, setChangePassword] = useState({
-    email: '',
-    oldPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
-
   const context = useContext(MyContext);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
+  const [loadingProfile, setLoadingProfile] = useState(false);
+  const [loadingPassword, setLoadingPassword] = useState(false);
+  const [showPwdForm, setShowPwdForm] = useState(false);
+
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    mobile: "",
+  });
+  const [phone, setPhone] = useState(profile.mobile);
+
+  const [passwords, setPasswords] = useState({
+    email: "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+  });
+
+  // redirect if not logged in
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    if (token === null) {
-      history("/");
+    if (!localStorage.getItem("accessToken")) {
+      navigate("/");
     }
-  }, [context?.isLogin]);
+  }, [context.isLogin, navigate]);
 
+  // populate form when userData arrives
   useEffect(() => {
-    if (context?.userData?._id) {
-      setUserId(context.userData._id);
-      setTimeout(() => {
-        setFormsFields({
-          name: context?.userData?.name || '',
-          email: context?.userData?.email || '',
-          mobile: context?.userData?.mobile || ''
-        });
-        setPhone(context?.userData?.mobile || '');
-        setChangePassword((prev) => ({
-          ...prev,
-          email: context?.userData?.email || ''
-        }));
-      }, 200);
+    if (context.userData?._id) {
+      const { name, email, mobile, signUpWithGoogle } = context.userData;
+      setProfile({ name, email, mobile });
+      setPhone(mobile);
+      setPasswords((p) => ({ ...p, email }));
     }
-  }, [context?.userData]);
+  }, [context.userData]);
 
-  const onChangeInput = (e) => {
+  const isProfileValid = profile.name && profile.email && profile.mobile;
+  const isPwdValid =
+    (!context.userData.signUpWithGoogle && passwords.oldPassword) &&
+    passwords.newPassword &&
+    passwords.newPassword === passwords.confirmPassword;
+
+  const handleProfileChange = (e) => {
     const { name, value } = e.target;
-
-    setFormsFields((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-
-    setChangePassword((prev) => ({
-      ...prev,
-      [name]: value
-    }));
+    setProfile((p) => ({ ...p, [name]: value }));
   };
 
-  const valideValue = Object.values(formFields).every(el => el);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    const { name, email, mobile } = formFields;
-
-    if (!name || !email || !mobile) {
-      context.alertBox("error", "Please fill in all required fields");
-      setIsLoading(false);
-      return;
-    }
-
-    editData(`/api/user/${userId}`, formFields, { withCredentials: true }).then((res) => {
-      setIsLoading(false);
-      if (res?.error !== true) {
-        context.alertBox("success", res?.data?.message);
-      } else {
-        context.alertBox("error", res?.data?.message);
-      }
-    });
+  const handlePhoneChange = (value) => {
+    setPhone(value);
+    setProfile((p) => ({ ...p, mobile: value }));
   };
 
-  const handleSubmitChangePassword = (e) => {
+  const handlePwdChange = (e) => {
+    const { name, value } = e.target;
+    setPasswords((p) => ({ ...p, [name]: value }));
+  };
+
+  const submitProfile = async (e) => {
     e.preventDefault();
-    setIsLoading2(true);
-
-    const { oldPassword, newPassword, confirmPassword } = changePassword;
-
-    if (!oldPassword || !newPassword || !confirmPassword) {
-      context.alertBox("error", "Please fill all password fields");
-      setIsLoading2(false);
-      return;
+    if (!isProfileValid) {
+      return context.alertBox("error", "Please fill in all required fields");
     }
-
-    if (confirmPassword !== newPassword) {
-      context.alertBox("error", "Password and Confirm Password do not match");
-      setIsLoading2(false);
-      return;
+    setLoadingProfile(true);
+    try {
+      const res = await editData(`/api/user/${context.userData._id}`, profile, { withCredentials: true });
+      context.alertBox(res.error ? "error" : "success", res.data.message);
+    } finally {
+      setLoadingProfile(false);
     }
+  };
 
-    postData(`/api/user/reset-password`, changePassword, { withCredentials: true }).then((res) => {
-      setIsLoading2(false);
-      if (res?.error !== true) {
-        context.alertBox("success", res?.message);
-      } else {
-        context.alertBox("error", res?.message);
-      }
-    });
+  const submitPassword = async (e) => {
+    e.preventDefault();
+    if (!isPwdValid) {
+      return context.alertBox("error", "Please check your password entries");
+    }
+    setLoadingPassword(true);
+    try {
+      const res = await postData(`/api/user/reset-password`, passwords, { withCredentials: true });
+      context.alertBox(res.error ? "error" : "success", res.message);
+    } finally {
+      setLoadingPassword(false);
+    }
   };
 
   return (
@@ -121,129 +104,90 @@ const MyAccount = () => {
           <AccountSidebar />
         </div>
 
-        <div className="col2 w-full lg:w-[50%]">
-          <div className="card bg-white p-5 shadow-md rounded-md mb-5">
-            <div className="flex items-center pb-3">
-              <h2 className="pb-0">My Profile</h2>
-              <Button className="!ml-auto" onClick={() => setisChangePasswordFormShow(!isChangePasswordFormShow)}>
+        <div className="w-full lg:w-[50%] space-y-5">
+          {/* Profile */}
+          <div className="card bg-white p-5 shadow-md rounded-md">
+            <div className="flex items-center mb-3">
+              <h2>My Profile</h2>
+              <Button className="ml-auto" onClick={() => setShowPwdForm((v) => !v)}>
                 Change Password
               </Button>
             </div>
-            <hr />
-
-            <form className="mt-8" onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 ">
-                <div className="col">
-                  <TextField
-                    label="Full Name"
-                    variant="outlined"
-                    size="small"
-                    className="w-full"
-                    name="name"
-                    value={formFields.name || ""}
-                    disabled={isLoading}
-                    onChange={onChangeInput}
-                  />
-                </div>
-
-                <div className="col">
-                  <TextField
-                    type="email"
-                    label="Email"
-                    variant="outlined"
-                    size="small"
-                    className="w-full"
-                    name="email"
-                    value={formFields.email || ""}
-                    disabled={true}
-                    onChange={onChangeInput}
-                  />
-                </div>
-
-                <div className="col">
-                  <PhoneInput
-                    defaultCountry="in"
-                    value={phone}
-                    disabled={isLoading}
-                    onChange={(phone) => {
-                      setPhone(phone);
-                      setFormsFields(prev => ({
-                        ...prev,
-                        mobile: phone
-                      }));
-                    }}
-                  />
-                </div>
-              </div>
-
-              <br />
-
-              <div className="flex items-center gap-4">
-                <Button type="submit" disabled={!valideValue} className="btn-org btn-sm w-[150px]">
-                  {isLoading ? <CircularProgress color="inherit" size={20} /> : 'Update Profile'}
+            <form onSubmit={submitProfile} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <TextField
+                label="Full Name"
+                name="name"
+                size="small"
+                value={profile.name}
+                disabled={loadingProfile}
+                onChange={handleProfileChange}
+              />
+              <TextField
+                label="Email"
+                name="email"
+                size="small"
+                value={profile.email}
+                disabled
+              />
+              <PhoneInput
+                defaultCountry="IN"
+                value={phone}
+                disabled={loadingProfile}
+                onChange={handlePhoneChange}
+              />
+              <div className="col-span-full flex justify-end">
+                <Button
+                  type="submit"
+                  disabled={!isProfileValid || loadingProfile}
+                  className="btn-org btn-sm w-[150px]"
+                >
+                  {loadingProfile ? <CircularProgress size={20} /> : "Update Profile"}
                 </Button>
               </div>
             </form>
           </div>
 
-          <Collapse isOpened={isChangePasswordFormShow}>
+          {/* Change Password */}
+          <Collapse isOpened={showPwdForm}>
             <div className="card bg-white p-5 shadow-md rounded-md">
-              <div className="flex items-center pb-3">
-                <h2 className="pb-0">Change Password</h2>
-              </div>
-              <hr />
-
-              <form className="mt-8" onSubmit={handleSubmitChangePassword}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  {
-                    context?.userData?.signUpWithGoogle === false &&
-                    <div className="col">
-                      <TextField
-                        label="Old Password"
-                        variant="outlined"
-                        size="small"
-                        className="w-full"
-                        name="oldPassword"
-                        type="password"
-                        value={changePassword.oldPassword || ""}
-                        disabled={isLoading2}
-                        onChange={onChangeInput}
-                      />
-                    </div>
-                  }
-
-                  <div className="col">
-                    <TextField
-                      type="password"
-                      label="New Password"
-                      variant="outlined"
-                      size="small"
-                      className="w-full"
-                      name="newPassword"
-                      value={changePassword.newPassword || ""}
-                      onChange={onChangeInput}
-                    />
-                  </div>
-
-                  <div className="col">
-                    <TextField
-                      label="Confirm Password"
-                      variant="outlined"
-                      size="small"
-                      className="w-full"
-                      name="confirmPassword"
-                      type="password"
-                      value={changePassword.confirmPassword || ""}
-                      onChange={onChangeInput}
-                    />
-                  </div>
-                </div>
-
-                <br />
-
-                <div className="flex items-center gap-4">
-                  <Button type="submit" className="btn-org btn-sm w-[200px]">
-                    {isLoading2 ? <CircularProgress color="inherit" size={20} /> : 'Change Password'}
+              <h2 className="mb-3">Change Password</h2>
+              <form onSubmit={submitPassword} className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {!context.userData.signUpWithGoogle && (
+                  <TextField
+                    label="Old Password"
+                    name="oldPassword"
+                    type="password"
+                    size="small"
+                    value={passwords.oldPassword}
+                    disabled={loadingPassword}
+                    onChange={handlePwdChange}
+                  />
+                )}
+                <TextField
+                  label="New Password"
+                  name="newPassword"
+                  type="password"
+                  size="small"
+                  value={passwords.newPassword}
+                  disabled={loadingPassword}
+                  onChange={handlePwdChange}
+                />
+                <TextField
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  size="small"
+                  value={passwords.confirmPassword}
+                  disabled={loadingPassword}
+                  onChange={handlePwdChange}
+                />
+                <div className="col-span-full flex justify-end">
+                  <Button
+                    type="submit"
+                    disabled={!isPwdValid || loadingPassword}
+                    className="btn-org btn-sm w-[200px]"
+                  >
+                    {loadingPassword ? <CircularProgress size={20} /> : "Change Password"}
                   </Button>
                 </div>
               </form>
