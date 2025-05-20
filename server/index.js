@@ -22,7 +22,7 @@ import affliateRouter from './route/affiliate.Routes.js'
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'https://e-commerce-one-orpin-93.vercel.app', 'http://sparknstitch.com','https://www.sparknstitch.com/'],
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'https://e-commerce-one-orpin-93.vercel.app', 'http://sparknstitch.com','https://www.sparknstitch.com', 'https://www.sparknstitch.com/'],
     credentials: true
   }));
 app.options('*', cors())
