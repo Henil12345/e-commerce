@@ -22,8 +22,8 @@ import affliateRouter from './route/affiliate.Routes.js'
 
 const app = express();
 app.use(cors({
-    origin: '*',  
-    credentials: true,
+    origin: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'https://e-commerce-zeta-green-13.vercel.app'],
+    credentials: true
   }));
 app.options('*', cors())
 
