@@ -45,6 +45,11 @@ app.get("/", (request, response) => {
 
 
 app.use('/api/user',userRouter)
+app.use('/api/test', (request, response) => {
+    response.json({
+        message: "Test API is running"
+    })
+})
 app.use('/api/category',categoryRouter)
 app.use('/api/product',productRouter);
 app.use("/api/cart",cartRouter)
