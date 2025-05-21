@@ -112,15 +112,15 @@ const Home = () => {
     <>
       {homeSlidesData?.length === 0 && <BannerLoading />}
       {homeSlidesData?.length !== 0 && (
-        <div className="mt-[64px] md:mt-[80px]">
+        <div className="mt-[0px] md:mt-[80px]">
           <HomeSlider data={homeSlidesData} />
         </div>
       )}
 
       {context?.catData?.length !== 0 && <HomeCatSlider data={context?.catData} />}
 
-      <section className="bg-white py-3 lg:py-8 px-4 sm:px-0">
-        <div className="container mx-auto px-4 sm:px-6">
+      <section className="bg-white py-3 lg:py-8 -px-10 sm:px-0">
+        <div className="container mx-auto px-0 sm:px-6">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 mb-6">
             <div className="leftSec w-full lg:w-[40%]">
               <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">Popular Products</h2>
@@ -148,6 +148,7 @@ const Home = () => {
                   },
                 }}
               >
+                
                 {context?.catData?.length !== 0 &&
                   context?.catData?.map((cat, index) => (
                     <Tab label={cat?.name} key={index} onClick={() => filterByCatId(cat?._id)} />
@@ -163,28 +164,11 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="py-6 pt-0 bg-white px-4 sm:px-0">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="flex flex-col gap-5">
-            <div className="w-full">{productsData?.length !== 0 && <HomeBannerV2 data={productsData} />}</div>
-
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
-              {bannerV1Data?.slice(-3).map((item, index) => (
-                <BannerBoxV2
-                  key={index}
-                  info={item?.alignInfo}
-                  image={item?.images?.[0]}
-                  item={item}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+  
 
       <section className="py-0 lg:py-4 pt-0 lg:pt-8 pb-0 bg-white px-4 sm:px-0">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="freeShipping w-full md:w-[80%] mx-auto py-4 px-4 border-2 border-[#ff5252] flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-4 rounded-md mb-7">
+        <div className="container mx-auto px-0 sm:px-6">
+          <div className="freeShipping w-full md:w-[80%] mx-auto py-4 px-0 border-2 border-[#ff5252] flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-4 rounded-md mb-7">
             <div className="col1 flex items-center gap-3 lg:gap-4">
               <LiaShippingFastSolid className="text-3xl lg:text-[50px]" />
               <span className="text-base lg:text-xl font-semibold uppercase">
@@ -193,17 +177,16 @@ const Home = () => {
             </div>
             <div className="col2 text-center lg:text-left">
               <p className="mb-0 mt-0 font-medium text-sm lg:text-base">
-                Free Delivery Now On Your First Order and over ₹200
+                Free Delivery Now On Your First Order and over ₹2000
               </p>
             </div>
-            <p className="font-bold text-xl lg:text-2xl">- Only ₹200*</p>
-          </div>
+           </div>
 
-          {bannerV1Data?.length !== 0 && <AdsBannerSliderV2 items={4} data={bannerV1Data} />}
+          {/* {bannerV1Data?.length !== 0 && <AdsBannerSliderV2 items={4} data={bannerV1Data} />} */}
         </div>
       </section>
 
-      <section className="py-3 lg:py-2 pt-0 bg-white px-4 sm:px-0">
+      <section className="py-3 lg:py-2 pt-0 bg-white px-0 sm:px-0">
         <div className="container mx-auto px-4 sm:px-6">
           <h2 className="text-xl font-semibold mb-4">Latest Products</h2>
           {productsData?.length === 0 && <ProductLoading />}
@@ -212,7 +195,7 @@ const Home = () => {
       </section>
 
       <section className="py-2 lg:py-0 pt-0 bg-white px-4 sm:px-0">
-        <div className="container mx-auto px-4 sm:px-6">
+        <div className="container mx-auto px-0 sm:px-6">
           <h2 className="text-xl font-semibold mb-4">Featured Products</h2>
           {featuredProducts?.length === 0 && <ProductLoading />}
           {featuredProducts?.length !== 0 && <ProductsSlider items={6} data={featuredProducts} />}
@@ -234,7 +217,7 @@ const Home = () => {
               </section>
             )
         )}
-
+{/* 
       {blogData?.length !== 0 && (
         <section className="py-5 pb-8 pt-0 bg-white blogSection px-4 sm:px-0">
           <div className="container mx-auto px-4 sm:px-6">
@@ -262,7 +245,7 @@ const Home = () => {
             </Swiper>
           </div>
         </section>
-      )}
+      )} */}
     </>
   );
 };

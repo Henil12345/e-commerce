@@ -37,20 +37,15 @@ const Footer = () => {
             <div className="col flex items-center justify-center flex-col group w-[15%]">
               <LiaShippingFastSolid className="text-[40px] transition-all duration-300 group-hover:text-zinc-500 group-hover:-translate-y-1" />
               <h3 className="text-[16px] font-[600] mt-3">Free Shipping</h3>
-              <p className="text-[12px] font-[500]">For all Orders Over $100</p>
+              <p className="text-[12px] font-[500]">For all Orders Over ₹2000</p>
             </div>
 
-            <div className="col flex items-center justify-center flex-col group w-[15%]">
-              <PiKeyReturnLight className="text-[40px] transition-all duration-300 group-hover:text-zinc-500 group-hover:-translate-y-1" />
-              <h3 className="text-[16px] font-[600] mt-3">30 Days Returns</h3>
-              <p className="text-[12px] font-[500]">For an Exchange Product</p>
-            </div>
-
+           
             <div className="col flex items-center justify-center flex-col group w-[15%]">
               <BsWallet2 className="text-[40px] transition-all duration-300 group-hover:text-zinc-500 group-hover:-translate-y-1" />
               <h3 className="text-[16px] font-[600] mt-3">Secured Payment</h3>
               <p className="text-[12px] font-[500]">Payment Cards Accepted</p>
-            </div>
+          </div>
 
             <div className="col flex items-center justify-center flex-col group w-[15%]">
               <LiaGiftSolid className="text-[40px] transition-all duration-300 group-hover:text-zinc-500 group-hover:-translate-y-1" />
@@ -137,7 +132,7 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="part2_col2 w-[50%]">
+              {/* <div className="part2_col2 w-[50%]">
                 <h2 className="text-[18px] font-[600] mb-4">Our company</h2>
 
                 <ul className="list">
@@ -172,7 +167,7 @@ const Footer = () => {
                     </Link>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

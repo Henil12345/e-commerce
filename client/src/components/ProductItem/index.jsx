@@ -329,9 +329,9 @@ const ProductItem = (props) => {
           {
             isAdded === false ?
 
-              <Button className="btn-org addToCartBtn btn-border flex w-full btn-sm gap-2 " size="small"
+              <Button className="btn-org addToCartBtn btn-border flex w-full btn-sm gap-2  " size="small"
                 onClick={() => addToCart(props?.item, context?.userData?._id, quantity)}>
-                <MdOutlineShoppingCart className="text-[18px]" /> Add to Cart
+                Add to Cart
               </Button>
 
               :
