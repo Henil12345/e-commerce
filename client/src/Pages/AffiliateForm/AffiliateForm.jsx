@@ -28,13 +28,13 @@ const AffiliateForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-4">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 ">
       <div className="bg-[#f6e8d1] w-full max-w-md rounded-2xl shadow-lg p-6">
         <h2 className="text-2xl font-semibold text-center text-gray-800 mb-2">
           Join Our Affiliate Program
         </h2>
         <p className="text-sm text-gray-600 text-center mb-6">
-          Fill in your details and pay ₹49 to join our exclusive affiliate program
+          Fill in your details and pay ₹100 to join our exclusive affiliate program
         </p>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -92,7 +92,7 @@ const AffiliateForm = () => {
           <div className="flex justify-center pt-2">
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-6 py-2 rounded-lg shadow-md transition-all duration-200"
+              className="bg-[#f6e8d1] text-black text-sm font-medium px-6 py-2 rounded-lg shadow-md transition-all duration-200"
             >
               Proceed to Payment
             </button>

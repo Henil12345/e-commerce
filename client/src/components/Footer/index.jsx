@@ -18,7 +18,6 @@ import Drawer from "@mui/material/Drawer";
 import CartPanel from "../CartPanel";
 import { MyContext } from "../../App";
 
-
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -26,7 +25,6 @@ import { ProductZoom } from "../ProductZoom";
 import { IoCloseSharp } from "react-icons/io5";
 import { ProductDetailsComponent } from "../ProductDetails";
 import AddAddress from "../../Pages/MyAccount/addAddress";
-
 
 const Footer = () => {
   const context = useContext(MyContext);
@@ -73,18 +71,18 @@ const Footer = () => {
           <div className="footer flex px-3 lg:px-0 flex-col lg:flex-row py-8">
             <div className="part1 w-full lg:w-[25%] border-r border-[rgba(0,0,0,0.1)]">
               <h2 className="text-[18px] font-[600] mb-4">Contact us</h2>
-              <p className="text-[13px] font-[400] pb-4 capitalize" >
-              Spark N Stitch
+              <p className="text-[13px] font-[400] pb-4 capitalize">
+                Spark N Stitch
                 <br />
-                d-124 jay Yogeshaver complex near shukan sky society, randesan, Gandhinagar, 382421
-
+                d-124 jay Yogeshaver complex near shukan sky society, randesan,
+                Gandhinagar, 382421
               </p>
 
               <Link
                 className="link text-[13px]"
                 to="mailto:someone@example.com"
               >
-                sales@yourcompany.com
+                business.sparknstitch@gmail.com
               </Link>
 
               <span className="text-[22px] font-[600] block w-full mt-3 mb-5 text-zinc-500">
@@ -176,32 +174,6 @@ const Footer = () => {
                 </ul>
               </div>
             </div>
-
-            <div className="part2  w-full lg:w-[35%] flex pl-0 lg:pl-8 flex-col pr-8 mt-5 lg:mt-0">
-              <h2 className="text-[18px] font-[600] mb-2 lg:mb-4">
-                Subscribe to newsletter
-              </h2>
-              <p className="text-[13px]">
-                Subscribe to our latest newsletter to get news about special
-                discounts.
-              </p>
-
-              <form className="mt-5">
-                <input
-                  type="text"
-                  className="w-full h-[45px] border outline-none pl-4 pr-4 rounded-sm mb-4 focus:border-[rgba(0,0,0,0.3)]"
-                  placeholder="Your Email Address"
-                />
-
-                <Button className="btn-org">SUBSCRIBE</Button>
-
-                <FormControlLabel
-                  className="mt-3 lg:mt-0 block w-full"
-                  control={<Checkbox />}
-                  label=" I agree to the terms and conditions and the privacy policy"
-                />
-              </form>
-            </div>
           </div>
         </div>
       </footer>
@@ -211,7 +183,7 @@ const Footer = () => {
           <ul className="flex items-center gap-2">
             <li className="list-none">
               <Link
-                to="/"
+                to="https://www.facebook.com/share/1Em5mQM9Pz/?mibextid=wwXIfr"
                 target="_blank"
                 className="w-[35px] h-[35px] rounded-full border border-[rgba(0,0,0,0.1)] flex items-center justify-center group hover:bg-zinc-text-zinc-500 transition-all"
               >
@@ -221,27 +193,7 @@ const Footer = () => {
 
             <li className="list-none">
               <Link
-                to="/"
-                target="_blank"
-                className="w-[35px] h-[35px] rounded-full border border-[rgba(0,0,0,0.1)] flex items-center justify-center group hover:bg-zinc-text-zinc-500 transition-all"
-              >
-                <AiOutlineYoutube className="text-[21px] group-hover:text-white" />
-              </Link>
-            </li>
-
-            <li className="list-none">
-              <Link
-                to="/"
-                target="_blank"
-                className="w-[35px] h-[35px] rounded-full border border-[rgba(0,0,0,0.1)] flex items-center justify-center group hover:bg-zinc-text-zinc-500 transition-all"
-              >
-                <FaPinterestP className="text-[17px] group-hover:text-white" />
-              </Link>
-            </li>
-
-            <li className="list-none">
-              <Link
-                to="/"
+                to="https://www.instagram.com/sparknstitch?igsh=MTRkeTB2YmRwdW9hYQ=="
                 target="_blank"
                 className="w-[35px] h-[35px] rounded-full border border-[rgba(0,0,0,0.1)] flex items-center justify-center group hover:bg-zinc-text-zinc-500 transition-all"
               >
@@ -254,7 +206,6 @@ const Footer = () => {
             © 2025 - Spark N Stitch
           </p>
 
-
           <div className="flex items-center gap-1">
             <img src="/carte_bleue.png" alt="image" />
             <img src="/visa.png" alt="image" />
@@ -262,15 +213,8 @@ const Footer = () => {
             <img src="/american_express.png" alt="image" />
             <img src="/paypal.png" alt="image" />
           </div>
-
-
         </div>
       </div>
-
-
-
-
-
 
       {/* Cart Panel */}
       <Drawer
@@ -281,34 +225,29 @@ const Footer = () => {
       >
         <div className="flex items-center justify-between py-3 px-4 gap-3 border-b border-[rgba(0,0,0,0.1)] overflow-hidden">
           <h4>Shopping Cart ({context?.cartData?.length})</h4>
-          <IoCloseSharp className="text-[20px] cursor-pointer" onClick={context.toggleCartPanel(false)} />
+          <IoCloseSharp
+            className="text-[20px] cursor-pointer"
+            onClick={context.toggleCartPanel(false)}
+          />
         </div>
 
-
-        {
-
-          context?.cartData?.length !== 0 ? <CartPanel data={context?.cartData} /> :
-            <>
-              <div className="flex items-center justify-center flex-col pt-[100px] gap-5">
-                <img src="/empty-cart.png" className="w-[150px]" />
-                <h4>Your Cart is currently empty</h4>
-                <Button className="btn-org btn-sm" onClick={context.toggleCartPanel(false)}>Continue Shopping</Button>
-              </div>
-            </>
-
-        }
-
-
-
+        {context?.cartData?.length !== 0 ? (
+          <CartPanel data={context?.cartData} />
+        ) : (
+          <>
+            <div className="flex items-center justify-center flex-col pt-[100px] gap-5">
+              <img src="/empty-cart.png" className="w-[150px]" />
+              <h4>Your Cart is currently empty</h4>
+              <Button
+                className="btn-org btn-sm"
+                onClick={context.toggleCartPanel(false)}
+              >
+                Continue Shopping
+              </Button>
+            </div>
+          </>
+        )}
       </Drawer>
-
-
-
-
-
-
-
-
 
       {/* Address Panel */}
       <Drawer
@@ -318,23 +257,19 @@ const Footer = () => {
         className="addressPanel"
       >
         <div className="flex items-center justify-between py-3 px-4 gap-3 border-b border-[rgba(0,0,0,0.1)] overflow-hidden">
-          <h4>{context?.addressMode === "add" ? 'Add' : 'Edit'} Delivery Address </h4>
-          <IoCloseSharp className="text-[20px] cursor-pointer" onClick={context.toggleAddressPanel(false)} />
+          <h4>
+            {context?.addressMode === "add" ? "Add" : "Edit"} Delivery Address{" "}
+          </h4>
+          <IoCloseSharp
+            className="text-[20px] cursor-pointer"
+            onClick={context.toggleAddressPanel(false)}
+          />
         </div>
-
-
 
         <div className="w-full max-h-[100vh] overflow-auto">
           <AddAddress />
         </div>
-
-
-
       </Drawer>
-
-
-
-
 
       <Dialog
         open={context?.openProductDetailsModal.open}
@@ -353,25 +288,24 @@ const Footer = () => {
             >
               <IoCloseSharp className="text-[20px]" />
             </Button>
-            {
-              context?.openProductDetailsModal?.item?.length !== 0 &&
+            {context?.openProductDetailsModal?.item?.length !== 0 && (
               <>
                 <div className="col1 w-[40%] px-3 py-8">
-                  <ProductZoom images={context?.openProductDetailsModal?.item?.images} />
+                  <ProductZoom
+                    images={context?.openProductDetailsModal?.item?.images}
+                  />
                 </div>
 
                 <div className="col2 w-[60%] py-8 px-8 pr-16 productContent ">
-                  <ProductDetailsComponent item={context?.openProductDetailsModal?.item} />
+                  <ProductDetailsComponent
+                    item={context?.openProductDetailsModal?.item}
+                  />
                 </div>
               </>
-            }
-
+            )}
           </div>
         </DialogContent>
       </Dialog>
-
-
-
     </>
   );
 };
